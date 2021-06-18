@@ -1,4 +1,11 @@
-Hi all
+丁于的博客
 ---
 
-[go日志库汇总](nailcui.github.io/go/go-log.md)
+### Golang
+
+[go日志库汇总](/go/go-log)
+
+
+### Linux
+
+[shell](/shell/shell)
