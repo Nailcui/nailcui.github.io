@@ -14,6 +14,17 @@ do
 done
 ```
 
+```shell
+# 删除所有状态为 Evicted 的 pod
+# 从第二行开始处理: awk 'NR>1{print $1}'
+for ns in `kubectl get ns | awk 'NR>1{print $1}'`
+do
+    echo "deal with namespace: "$ns
+    kubectl get pods -n ${ns} | grep Evicted | awk '{print $1}' | xargs kubectl -n ${ns} delete pod
+done
+```
+
+
 
 ## 示例
 
@@ -43,6 +54,21 @@ fi
 echo "end"
 
 ```
+
+### 文件删除
+
+```shell
+# 删除前天及之前的文件
+find /logs/app/ -name "*.log" -mtime +0 -exec rm -f {} \;
+
+# -mtime
+# +0 前天及之前
+# 0 昨天
+# 1 前天
+# -1 前天之后
+```
+
+
 
 ### 时间相关
 
