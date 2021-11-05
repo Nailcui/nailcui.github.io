@@ -3,21 +3,22 @@
 
 ### Golang
 
-- [go日志库汇总](/go/go-log)
-- [go反射](/go/go-reflect)
-- [gorm](/go/gorm)
+- [go日志库汇总](go/go-log)
+- [go反射](go/go-reflect)
+- [gorm](go/gorm)
 
 ### Java
 
 - [Java字节码、JVM-TI等](https://github.com/Nailcui/Nailcui.github.io/issues/1)
-- [Java故障处理手册](/java/java_fault)
+- [Java故障处理手册](java/java_fault)
+- [Java Future](java/java_future)
 
 
 ### Linux
 
 - [shell](/shell/shell)
-- [常用命令手册](/shell/manual)
-- [磁盘相关操作](/linux/disk_opt)
+- [常用命令手册](shell/manual)
+- [磁盘相关操作](linux/disk_opt)
 
 ### Mysql
 
@@ -33,4 +34,5 @@
 ### 常用
 
 - [git常用操作](git/git_opt)
+- [日常操作手册](workzone/manual.md)
 
