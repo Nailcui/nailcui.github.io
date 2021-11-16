@@ -6,6 +6,7 @@
 - [go日志库汇总](go/go-log)
 - [go反射](go/go-reflect)
 - [gorm](go/gorm)
+- [text-template](go/go-text-template)
 
 ### Java
 
@@ -35,4 +36,5 @@
 
 - [git常用操作](git/git_opt)
 - [日常操作手册](workzone/manual.md)
+- [zsh](workzone/zsh)
 
