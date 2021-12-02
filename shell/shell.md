@@ -160,3 +160,21 @@ eof
   echo "delete success"
 }
 ```
+
+### 参数校验、判断
+
+```sh
+# 判断参数不为空
+if [ ! -n "$1" ] ;then
+    echo "请输入应用名"
+    exit
+fi
+
+
+# 判断变量不是单个字符数量
+if [ `echo $PID | wc -w` -ne 1 ] ;then
+    echo "！！匹配进程: $PID"
+    exit
+fi
+
+```
