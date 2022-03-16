@@ -1,6 +1,8 @@
 丁于的博客
 ---
 
+- [网络编程知识汇总](https://github.com/Nailcui/Nailcui.github.io/issues/5)
+
 ### Golang
 
 - [go日志库汇总](go/go-log)
@@ -33,6 +35,10 @@
 - [build your docker](docker/build_your_container)
 - [docker](docker/docker)
 - [docker常用操作](/docker/docker_opts)
+
+### 网络
+
+- [边缘触发/水平触发](/net/triggered)
 
 ### 常用
 
