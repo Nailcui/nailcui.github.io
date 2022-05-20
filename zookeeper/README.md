@@ -23,6 +23,8 @@ zab的消息广播机制和标准的二阶段提交有些不一样，移除了�
 
 [详细介绍处理客户端请求](https://www.cnblogs.com/aoshicangqiong/p/8029792.html)
 
+[Zookeeper事务日志和数据：讲解日志、快照的基本逻辑](https://zhuanlan.zhihu.com/p/141522460)
+
 
 
 Follower的处理逻辑链

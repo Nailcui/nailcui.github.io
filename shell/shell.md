@@ -177,4 +177,11 @@ if [ `echo $PID | wc -w` -ne 1 ] ;then
     exit
 fi
 
+# 判断文件、目录是否存在
+if [ -d /tmp/abc -o -f /tmp/abc ] ;then
+    echo "文件/文件夹已存在"
+    exit
+fi
+
+
 ```

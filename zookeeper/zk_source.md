@@ -204,7 +204,7 @@ public class ZKDatabase {
 }
 ```
 
-# 网络连接相关的分析
+# 网络连接相关的分析 zk 3.5.x 及之后
 
 
 
@@ -706,7 +706,182 @@ public class CommitProcessor extends ZooKeeperCriticalThread implements RequestP
 
 ## Leader逻辑
 
-> PreRequestProcessor -> SyncProcessor -> FinalRequestProcessor
+PrepRequestProcessor -> ProposalRequestProcessor -> CommitProcessor -> ToBeAppliedRequestProcessor -> FinalRequestProcessor
+
+
+
+#### PrepRequestProcessor
+
+```java
+public class PrepRequestProcessor extends ZooKeeperCriticalThread implements RequestProcessor {
+    protected void pRequest(Request request) throws RequestProcessorException {
+        request.hdr = null;
+        request.txn = null;
+        
+        try {
+            switch (request.type) {
+                case OpCode.create:
+                CreateRequest createRequest = new CreateRequest();
+                pRequest2Txn(request.type, zks.getNextZxid(), request, createRequest, true);
+                break;
+                ...    
+            }
+        }
+        // 最终交由下一个processor处理
+        request.zxid = zks.getZxid();
+        nextProcessor.processRequest(request);
+    }
+    
+    // 具体处理在这里
+    protected void pRequest2Txn(int type, long zxid, Request request, Record record, boolean deserialize)
+        throws KeeperException, IOException, RequestProcessorException
+    {
+        request.hdr = new TxnHeader(request.sessionId, request.cxid, zxid,
+                                    Time.currentWallTime(), type);
+ 
+        switch (type) {
+            case OpCode.create:                
+                zks.sessionTracker.checkSession(request.sessionId, request.getOwner());
+                CreateRequest createRequest = (CreateRequest)record;   
+                if(deserialize)
+                    // 将客户端的请求体反序列化到CreateRequest对象中
+                    ByteBufferInputStream.byteBuffer2Record(request.request, createRequest);
+                // path检查
+                String path = createRequest.getPath();
+                int lastSlash = path.lastIndexOf('/');
+                if (lastSlash == -1 || path.indexOf('\0') != -1 || failCreate) {
+                    LOG.info("Invalid path " + path + " with session 0x" +
+                            Long.toHexString(request.sessionId));
+                    throw new KeeperException.BadArgumentsException(path);
+                }
+                // ACL权限检查
+                List<ACL> listACL = removeDuplicates(createRequest.getAcl());
+                if (!fixupACL(request.authInfo, listACL)) {
+                    throw new KeeperException.InvalidACLException(path);
+                }
+                String parentPath = path.substring(0, lastSlash);
+                ChangeRecord parentRecord = getRecordForPath(parentPath);
+ 
+                checkACL(zks, parentRecord.acl, ZooDefs.Perms.CREATE,
+                        request.authInfo);
+                int parentCVersion = parentRecord.stat.getCversion();
+                // 根据创建节点类型，重置path信息
+                CreateMode createMode =
+                    CreateMode.fromFlag(createRequest.getFlags());
+                if (createMode.isSequential()) {
+                    path = path + String.format(Locale.ENGLISH, "%010d", parentCVersion);
+                }
+                validatePath(path, request.sessionId);
+                try {
+                    if (getRecordForPath(path) != null) {
+                        throw new KeeperException.NodeExistsException(path);
+                    }
+                } catch (KeeperException.NoNodeException e) {
+                    // ignore this one
+                }
+                // 检查父节点是否临时节点
+                boolean ephemeralParent = parentRecord.stat.getEphemeralOwner() != 0;
+                if (ephemeralParent) {
+                    throw new KeeperException.NoChildrenForEphemeralsException(path);
+                }
+                int newCversion = parentRecord.stat.getCversion()+1;
+                
+                // 补充request的txn对象信息，后续requestProcessor会用到
+                request.txn = new CreateTxn(path, createRequest.getData(),
+                        listACL,
+                        createMode.isEphemeral(), newCversion);
+                StatPersisted s = new StatPersisted();
+                if (createMode.isEphemeral()) {
+                    s.setEphemeralOwner(request.sessionId);
+                }
+                // 修改父节点的stat信息
+                parentRecord = parentRecord.duplicate(request.hdr.getZxid());
+                parentRecord.childCount++;
+                parentRecord.stat.setCversion(newCversion);
+                addChangeRecord(parentRecord);
+                addChangeRecord(new ChangeRecord(request.hdr.getZxid(), path, s,
+                        0, listACL));
+                break;
+        }
+        ...
+        
+}
+
+
+```
+
+
+
+#### ProposalRequestProcessor
+
+```java
+public class ProposalRequestProcessor implements RequestProcessor {
+ 
+    public void processRequest(Request request) throws RequestProcessorException {
+        // 如果请求来自leaner
+        if(request instanceof LearnerSyncRequest){
+            zks.getLeader().processSync((LearnerSyncRequest)request);
+        } else {
+            	// 事务和非事务请求都会将该请求流转到下一个processor（CommitProcessor ），
+                nextProcessor.processRequest(request);
+            // 而针对事务请求的话(事务请求头不为空)，则还需要进行事务投票等动作，在这里与之前非事务请求有所不同
+            if (request.hdr != null) {
+                try {
+                    // 针对事务请求发起一次propose，具体在2.1
+                    zks.getLeader().propose(request);
+                } catch (XidRolloverException e) {
+                    throw new RequestProcessorException(e.getMessage(), e);
+                }
+                // 将本次事务请求记录到事务日志中去
+                syncProcessor.processRequest(request);
+            }
+        }
+    }
+}
+```
+
+
+
+#### 接收 Follower 回复的逻辑
+
+leader处理 其他节点请求的代码在 `LearnerHandler` 里
+
+```java
+public class LearnerHandler extends ZooKeeperThread {
+    @Override
+    public void run() {
+     	...
+        while (true) {
+            qp = new QuorumPacket();
+            ia.readRecord(qp, "packet");
+         	ByteBuffer bb;
+            long sessionId;
+            int cxid;
+            int type;
+ 
+            // 接收到响应
+            switch (qp.getType()) {
+                // ACK类型，说明follower已经完成该次请求事务日志的记录    
+                case Leader.ACK:
+                    if (this.learnerType == LearnerType.OBSERVER) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Received ACK from Observer  " + this.sid);
+                        }
+                    }
+                    syncLimitCheck.updateAck(qp.getZxid());
+                    // leader计算是否已经有足够的follower返回ack
+                    leader.processAck(this.sid, qp.getZxid(), sock.getLocalSocketAddress());
+                    break;   
+                    ...
+            }
+        }
+    }
+}
+```
+
+
+
+
 
 # ZKDatabase
 

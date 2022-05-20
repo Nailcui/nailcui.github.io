@@ -3,6 +3,10 @@
 
 - [网络编程知识汇总](https://github.com/Nailcui/Nailcui.github.io/issues/5)
 
+### 分布式系统
+
+- [ID 生成](distribution/id_generator)
+
 ### [Golang](go/go-readme)
 
 - [go日志库汇总](go/go-log)
@@ -17,7 +21,7 @@
 - [Java Future](java/java_future)
 - [Java 时间](java/java_time)
 - [Dubbo 2.7.5 线程模型优化](java/dubbo_2_7_5)
-- [zookeeper源码](/zookeeper/zk_source)
+- [zookeeper源码](/zookeeper/zk_source_0)
 
 
 ### Linux
@@ -26,9 +30,12 @@
 - [常用命令手册](shell/manual)
 - [磁盘相关操作](linux/disk_opt)
 
-### Mysql
+### database
 
-- [Mysql相关操作](mysql/mysql_opt)
+- [TSDB](database/TSDB)
+
+- Mysql
+    - [Mysql相关操作](mysql/mysql_opt)
 
 ### 容器 & Docker
 
