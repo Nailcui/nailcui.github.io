@@ -14,6 +14,7 @@
 - [gorm](go/gorm)
 - [text-template](go/go-text-template)
 - [go mod](go/go-mod)
+- [golang切片](go/go-slice)
 
 ### Java
 
