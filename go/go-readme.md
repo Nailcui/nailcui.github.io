@@ -25,3 +25,15 @@
     - 定时器
         - [Golang 定时器底层实现深度剖析](https://www.cyhone.com/articles/analysis-of-golang-timer/)
 
+
+
+### 运行、打包相关操作
+
+指定Go协程最多可以在多少个线程上执行
+
+```
+GOMAXPROCS=2 go run main.go
+```
+
+注意，如果代码中也设置了`runtime.GOMAXPROCS(n)`，则最后是代码里的为准
+
