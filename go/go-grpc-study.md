@@ -4,6 +4,12 @@
 
 
 
+在本节中，我们先使用 k8s 的`service` 作为服务端负载均衡方式，实现了功能；
+
+之后用 `Headless service` 配合 `go-grpc` 的`dns` `roundrobin` 来达到了真正负载均衡的效果
+
+
+
 步骤：
 
 - 安装相关的工具，主要是和proto相关的代码生成工具
@@ -299,5 +305,89 @@ spec:
 grpc-example-server-58c6676c99-l6767[root@dev-k8s-node01 grpc-example]#
 [root@dev-k8s-node01 grpc-example]# curl grpc-example-client:80/rpc
 grpc-example-server-58c6676c99-rtskd[root@dev-k8s-node01 grpc-example]#
+```
+
+
+
+
+
+----
+
+使用 grpc的负载均衡
+
+#### go client 代码
+
+```go
+package main
+
+import (
+	"flag"
+	"fmt"
+	"google.golang.org/grpc/balancer/roundrobin"
+	"net/http"
+	"os"
+
+	"github.com/gin-gonic/gin"
+	"go-example/grpc-example"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+)
+
+var (
+	conn *grpc.ClientConn
+	client grpc_example.HostnameServiceClient
+)
+
+var (
+	addr = flag.String("addr", "grpc-example-service.default.svc.cluster.local:9090", "the address to connect ")
+)
+
+func init() {
+	flag.Parse()
+	conn, _ = grpc.Dial(*addr,
+		grpc.WithDefaultServiceConfig(fmt.Sprintf(`{"LoadBalancingPolicy":"%s"}`, roundrobin.Name)),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	client = grpc_example.NewHostnameServiceClient(conn)
+}
+
+func main() {
+	router := gin.Default()
+	router.GET("/rpc", handler)
+	_ = router.Run(":80")
+}
+
+func handler(c *gin.Context) {
+	hostname, err := os.Hostname()
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	response, err := client.Hostname(c, &grpc_example.HostnameRequest{Hostname: hostname})
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	c.String(http.StatusOK, response.Hostname)
+}
+
+```
+
+
+
+#### Headless service 配置
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-example-service
+spec:
+  clusterIP: None
+  selector:
+    app: grpc-example-server
+  ports:
+    - port: 9090
+      targetPort: 9090
+
 ```
 
