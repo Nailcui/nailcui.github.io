@@ -1,3 +1,26 @@
+### 日常操作
+
+#### tag相关
+
+```
+# 查看现有tag
+git tag
+
+# 打标签
+git tag v0.1
+
+# 打标签（打在之前的 commit 上）
+git tag v0.1 2833b3
+
+# 推送标签到远程
+git push origin v0.1
+
+# 推送所有标签到远程
+git push origin --tags
+```
+
+
+
 ### 后悔药
 
 #### 丢弃工作区的修改
@@ -17,6 +40,20 @@ git merge --abort
 ```
 
 
+
+#### 只移除git管理的，但不删除文件
+
+```
+# 移除单个文件
+git rm --cached Dockerfile
+
+# 移除目录
+git rm --cached -r .idea
+```
+
+
+
+### 其他操作
 
 #### 合并提交
 
