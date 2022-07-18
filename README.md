@@ -18,6 +18,10 @@
 - [golang切片](go/go-slice)
 - [go-grpc-学习](go/go-grpc-study)
 
+### Kubernetes
+
+- [kubectl](kubernetes/kubectl)
+
 ### Java
 
 - [Java字节码、JVM-TI等](https://github.com/Nailcui/Nailcui.github.io/issues/1)
