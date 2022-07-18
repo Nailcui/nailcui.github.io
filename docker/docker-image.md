@@ -105,7 +105,7 @@ drwxr-xr-x 12 root root 4096 2021-04-14 18:25:48 var
 
 示例 `Dockerfile`：
 
-```
+```dockerfile
 FROM golang:1.16-alpine AS builder
 WORKDIR /build
 COPY . /build
@@ -127,6 +127,12 @@ CMD ["./cloud-tool"]
 第一个阶段必须用go环境，使用了 `golang:1.16-alpine` 的镜像，大小约300M；
 
 第二个阶段，直接用了 alpine镜像，大小约5.6M；
+
+在`alpine` 的镜像中，一些最基本的命令也没有提供，比如`curl`等用来排查问题比较常用的命令；所以正式环境要注意这些差别，选择合适的镜像
+
+##### 明确From镜像的版本
+
+不要使用`latest`版本，使用确定的版本；否则之后from镜像更新后，会出现不兼容的情况
 
 
 
