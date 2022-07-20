@@ -1,5 +1,15 @@
 # Docker 镜像
 
+> 容器技术的核心作用：隔离进程
+>
+> 容器技术的核心原理是：在启动进程时，做如下操作：
+>
+> 1、启用 Linux Namespace 相关的配置（系统调用时候，加一些参数就行）
+>
+> 2、指定 Cgroups 参数；（用来资源限制，也就是往指定目录写文件）
+>
+> 3、切换进程的根目录（Change Root）
+
 
 
 本节的示例，基本都是基于项目: [cloud-tool](https://github.com/Nailcui/cloud-tool) 来进行演示的
