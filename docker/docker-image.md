@@ -8,11 +8,15 @@
 
 ## Docker 镜像相关的操作
 
+
+
 查看本地有哪些镜像
 
 ```
 docker images
 ```
+
+
 
 搜索镜像
 
@@ -23,17 +27,38 @@ alpine                            A minimal Docker image based on Alpine Linux�
 alpine/git                        A  simple git container running in alpine li…   197                  [OK]
 ```
 
+
+
 拉取镜像
 
 ```
 docker image pull alpine:latest
 ```
 
+
+
+拉取下来的镜像怎么查看这个镜像是怎么构建的呢？
+
+```shell
+[root@dev-k8s-node01 ~]# docker image history naildocker/cloud-tool:0.1.1
+IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
+b331d7606e08   2 days ago      CMD ["./cloud-tool"]                            0B        buildkit.dockerfile.v0
+<missing>      2 days ago      EXPOSE map[80/tcp:{}]                           0B        buildkit.dockerfile.v0
+<missing>      2 days ago      COPY /build/cloud-tool . # buildkit             6.77MB    buildkit.dockerfile.v0
+<missing>      2 days ago      WORKDIR /build                                  0B        buildkit.dockerfile.v0
+<missing>      15 months ago   /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B
+<missing>      15 months ago   /bin/sh -c #(nop) ADD file:8ec69d882e7f29f06…   5.61MB
+```
+
+
+
 构建镜像
 
 ```
 docker build . -t naildocker/cloud-tool:0.1.1
 ```
+
+
 
 推送镜像到官方仓库
 
@@ -43,9 +68,121 @@ docker push naildocker/cloud-tool:0.1.1
 
 
 
+查看镜像的详细信息
+
+```shell
+[root@dev-k8s-node01 ~]# docker image inspect naildocker/cloud-tool:0.1.1
+[
+    {
+        "Id": "sha256:b331d7606e08ea6b747e6592bde1f4ee2f87843930c4880fb31f2776f8cea3d2",
+        "RepoTags": [
+            "naildocker/cloud-tool:0.1.1"
+        ],
+        "RepoDigests": [
+            "naildocker/cloud-tool@sha256:7e083939007bc0f9bd3f2c6d00a01e68fa63896767930078e8084eb3d7fded8d"
+        ],
+        "Parent": "",
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2022-07-17T04:01:08.543742085Z",
+        "Container": "",
+        "ContainerConfig": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": null,
+            "Cmd": null,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": null
+        },
+        "DockerVersion": "",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "./cloud-tool"
+            ],
+            "ArgsEscaped": true,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "/build",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 12379750,
+        "VirtualSize": 12379750,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/effbee484f064347ef0d6c5db51b8307cf2da00599d68bd84f0a7934cd974387/diff:/var/lib/docker/overlay2/5dc9c3483a6bdc4d8118e8930065001aeae1e8d6b5a54df8b7b81427a995a57a/diff",
+                "MergedDir": "/var/lib/docker/overlay2/9b8c537a684fc6d3df3aa165bdd4e1ee964c61eb251c7cb4e62ddc017eb53cfd/merged",
+                "UpperDir": "/var/lib/docker/overlay2/9b8c537a684fc6d3df3aa165bdd4e1ee964c61eb251c7cb4e62ddc017eb53cfd/diff",
+                "WorkDir": "/var/lib/docker/overlay2/9b8c537a684fc6d3df3aa165bdd4e1ee964c61eb251c7cb4e62ddc017eb53cfd/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:b2d5eeeaba3a22b9b8aa97261957974a6bd65274ebd43e1d81d0a7b8b752b116",
+                "sha256:2c520f6588831d097b9d3a54887e8869618bc70ec57cf4b1f880045f5f3daf97",
+                "sha256:17d1425b31125389a90152c131bd17cb134f6080bd352c0133f3bd042cba1b8c"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+```
+
+
+
+清理本地无用镜像
+
+```shell
+docker image prune
+```
+
+```shell
+[root@dev-k8s-node01 ~]# docker image prune
+WARNING! This will remove all dangling images.
+Are you sure you want to continue? [y/N] y
+Total reclaimed space: 0B
+```
+
+
+
+
+
 ## Docker 镜像里有什么
 
-需要了解的知识: `rootfs`、`chroot`、`pivot_root`
+需要了解的知识: `rootfs`、`chroot`、`pivot_root`、`union file system`
 
 - pivot_root是一个系统调用，主要功能是去改变当前的 root文件系统。 pivot_root可以将当 前进程的 root 文件系统移动到 put_old 文件夹中，然后使 new_root 成为新的 root 文件系统。
 
@@ -93,7 +230,9 @@ drwxr-xr-x  7 root root 4096 2021-04-14 18:25:48 usr
 drwxr-xr-x 12 root root 4096 2021-04-14 18:25:48 var
 ```
 
-可以看到这基本上就是一个我们平常使用的linux系统的完成的文件
+可以看到这基本上就是一个我们平常使用的linux系统的完成的文件；
+
+这里一般是不包含操作系统内核的，只有文件系统
 
 
 
