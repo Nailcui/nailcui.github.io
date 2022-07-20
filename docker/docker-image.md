@@ -10,6 +10,10 @@
 >
 > 3、切换进程的根目录（Change Root）
 
+第三步：切换根目录其实就是切换到镜像带的文件系统中
+
+---
+
 
 
 本节的示例，基本都是基于项目: [cloud-tool](https://github.com/Nailcui/cloud-tool) 来进行演示的
