@@ -22,6 +22,8 @@
 
 - [kubectl](kubernetes/kubectl)
 - [namespace](kubernetes/namespace)
+- [service](kubernetes/service)
+- [ingress](kubernetes/ingress)
 
 ### 容器 & Docker
 
