@@ -41,6 +41,10 @@
 - [zookeeper源码](/zookeeper/zk_source_0)
 - [zookeeper-ZAB算法](/zookeeper/ZAB)
 
+### [微服务](microservice/README)
+
+- [Service Mesh](microservice/service-mesh)
+
 
 ### Linux
 
@@ -69,4 +73,12 @@
 
 - Mysql
     - [Mysql相关操作](mysql/mysql_opt)
+
+### Blog
+
+- [2021.07.13 我们是这样崩的-bilibili](https://mp.weixin.qq.com/s?__biz=Mzg3Njc0NTgwMg==&mid=2247487272&idx=1&sn=038a30ce61706c97e3397eee982b1486)
+- [OpenResty XRay 如何分析和解决 B 站重大线上事故](https://zhuanlan.zhihu.com/p/544089989)
+- [动态追踪技术漫谈 - OpenResty作者2016年](https://blog.openresty.com.cn/cn/dynamic-tracing/)
+
+- [eBPF简史 - 理解eBPF是什么](https://linux.cn/article-9032-1.html)
 
