@@ -15,6 +15,7 @@
 ### [Kubernetes](kubernetes/README)
 
 - [kubectl](kubernetes/kubectl)
+- [标签、注解、污点](kubernetes/labels-annotations-taints)
 - [namespace](kubernetes/namespace)
 - [service](kubernetes/service)
 - [ingress](kubernetes/ingress)
