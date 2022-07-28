@@ -38,11 +38,15 @@ type ListOptions struct {
 
 从API上我们可以看到他们被设计的区别：
 
-- 标签可以用来查找资源
+- 标签可以用来查找资源，而注解不可以
 
 
 
 ### 标签
+
+标签能够支持高效的查询和监听操作，对于用户界面和命令行是很理想的。
+
+[官方文档](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/labels/)
 
 ```
 kubectl label nodes <node-name> <label-key>=<label-value> 
@@ -73,6 +77,12 @@ kubectl label pod <pod-id> key=values --overwrite
 ```
 
 ### 注解
+
+[官方文档](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/annotations/)
+
+
+
+注解为对象附加任意的非标识的元数据。客户端程序（例如工具和库）能够获取这些元数据信息。
 
 
 
