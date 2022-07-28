@@ -1,12 +1,6 @@
 丁于的博客
 ---
 
-
-
-### 分布式系统
-
-- [ID 生成](distribution/id_generator)
-
 ### [Golang](go/go-readme)
 
 - [go资料汇总](go/go-source-link)
@@ -24,6 +18,8 @@
 - [namespace](kubernetes/namespace)
 - [service](kubernetes/service)
 - [ingress](kubernetes/ingress)
+- manifest
+    - [cloud-tool 一些测试工具](kubernetes/manifest/cloud-tool-in-one)
 
 ### 容器 & Docker
 
@@ -46,6 +42,10 @@
 ### [微服务](microservice/README)
 
 - [Service Mesh](microservice/service-mesh)
+
+### 分布式系统
+
+- [ID 生成](distribution/id_generator)
 
 
 ### Linux

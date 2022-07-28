@@ -146,6 +146,36 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 
 
 
+```
+
+AbstractAutowireCapableBeanFactory.initializeBean
+  AbstractAutowireCapableBeanFactory.invokeAwareMethods
+    -> BeanNameAware.setBeanName
+    -> BeanClassLoaderAware.setBeanClassLoader
+    -> BeanFactoryAware.setBeanFactory
+  AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization
+    for getBeanPostProcessors().postProcessBeforeInitialization(可以自定义 BeanPostProcessor)
+      1、CommonAnnotationBeanPostProcessor.postProcessBeforeInitialization
+        @PostConstruct
+      2、ApplicationContextAwareProcessor.postProcessBeforeInitialization
+        -> EnvironmentAware.setEnvironment
+        -> EmbeddedValueResolverAware.setEmbeddedValueResolver
+        -> ResourceLoaderAware.setResourceLoader
+        -> ApplicationEventPublisherAware.setApplicationEventPublisher
+        -> MessageSourceAware.setMessageSource(this.applicationContext
+        -> ApplicationContextAware.setApplicationContext
+      3、...
+  AbstractAutowireCapableBeanFactory.invokeInitMethods
+    -> InitializingBean.afterPropertiesSet
+    -> invokeCustomInitMethod
+  AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization
+    for getBeanPostProcessors().postProcessAfterInitialization
+      BeanPostProcessor.postProcessAfterInitialization
+
+```
+
+
+
 #### BeanFactoryAware
 
 这个类只有一个触发点，发生在bean的实例化之后，注入属性之前，也就是Setter之前。这个类的扩展点方法为setBeanFactory，可以拿到BeanFactory这个属性。
@@ -173,11 +203,19 @@ public interface BeanPostProcessor {
 
 
 
-#### ApplicationContextAwareProcessor
-
 
 
 #### BeanNameAware
+
+
+
+#### ApplicationContextAwareProcessor
+
+- ApplicationContextAware
+- BeanPostProcessor.postProcessBeforeInitialization
+- @PostConstruct
+- init
+- BeanPostProcessor.postProcessAfterInitialization
 
 
 

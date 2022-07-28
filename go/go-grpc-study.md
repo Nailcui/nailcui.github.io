@@ -309,6 +309,8 @@ grpc-example-server-58c6676c99-rtskd[root@dev-k8s-node01 grpc-example]#
 
 
 
+
+
 ----
 
 使用 grpc的负载均衡

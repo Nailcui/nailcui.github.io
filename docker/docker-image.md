@@ -69,6 +69,7 @@ b331d7606e08   2 days ago      CMD ["./cloud-tool"]                            0
 构建镜像
 
 ```
+# docker build [OPTIONS] PATH | URL | -
 docker build . -t naildocker/cloud-tool:0.1.1
 ```
 
