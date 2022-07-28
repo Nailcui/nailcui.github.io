@@ -300,3 +300,20 @@ CMD ["./cloud-tool"]
 
 ## Docker镜像大小优化
 
+
+
+
+
+# 国外镜像
+
+```
+# 1、拉取镜像到本地
+docker pull k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1
+
+# 2、修改镜像tag到自己仓库
+docker tag k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1 naildocker/kube-webhook-certgen:v1.1.1
+
+# 3、推送到自己仓库
+docker push naildocker/kube-webhook-certgen:v1.1.1
+```
+

@@ -1,7 +1,16 @@
 ### ingress-nginx
 
+手动安装步骤：
+
+- 找到 yml 的地址
+- kubectl apply -f https:/xxxxxxxx
+
+
+
 ```yaml
-# 这个是最新版本的
+在这个页面找到对应的版本: https://github.com/kubernetes/ingress-nginx
+
+# 这个是最新版本，注意修改版本号，注意里面的镜像是国外的
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
