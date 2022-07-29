@@ -5,12 +5,19 @@
 - 找到 yml 的地址
 - kubectl apply -f https:/xxxxxxxx
 
+注意：
+
+- ingress-nginx和k8s集群版本的对应关系
+- 国外镜像问题
+- ingress-nginx不会默认在主机上暴露端口；创建了一个LoadBanlance的service（1.1.1版本是这个情况）
+- 1.18后的集群，需要指定默认IngressClass或者在Ingress资源里指定Ingress
+
 
 
 ```yaml
 在这个页面找到对应的版本: https://github.com/kubernetes/ingress-nginx
 
-# 这个是最新版本，注意修改版本号，注意里面的镜像是国外的
+# 这个是最新版本，注意修改版本号，注意里面的镜像是国外的，注意ingress默认不会在主机上暴露端口，可以添加配置来暴露: `hostNetwork: true`
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
@@ -18,13 +25,14 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 ```yaml
 # https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.20.0/deploy/mandatory.yaml
+# 创建 namespace
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ingress-nginx
 
 ---
-
+# 默认后端，找不到后端，流量就路由到这个福利
 apiVersion: apps/v1
 kind: Deployment
 metadata:

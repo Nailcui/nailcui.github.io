@@ -18,9 +18,9 @@
 - [标签、注解、污点](kubernetes/labels-annotations-taints)
 - [namespace](kubernetes/namespace)
 - [service](kubernetes/service)
-- [ingress](kubernetes/ingress)
+- [ingress安装](kubernetes/ingress-setup)
 - manifest
-    - [cloud-tool 一些测试工具](kubernetes/manifest/cloud-tool-in-one)
+    - [cloud-tool-测试工具](kubernetes/manifest/cloud-tool-in-one)
 
 ### 容器 & Docker
 

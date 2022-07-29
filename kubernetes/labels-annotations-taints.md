@@ -46,6 +46,8 @@ type ListOptions struct {
 
 标签能够支持高效的查询和监听操作，对于用户界面和命令行是很理想的。
 
+共享标签和注释共享一个公共前缀：`app.kubernetes.io`. 没有前缀的标签是用户私有的。共享前缀确保共享标签不会干扰自定义用户标签。
+
 [官方文档](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/labels/)
 
 ```
