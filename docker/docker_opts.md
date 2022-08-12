@@ -1,4 +1,4 @@
-#### 容器操作
+### 容器操作
 
 ```sh
 # 创建容器
@@ -35,6 +35,77 @@ docker logs -f <container-id>
 docker cp c484b111a7e4:/etc/hosts .
 
 ```
+
+#### 停止容器
+
+1、`docker stop`
+
+停止正在运行的容器，先发送`SIGTERM`信号，超时无反应后再发送`SIGKILL`信号
+
+默认超时时间是10s，通过`-t` 自定义超时事件
+
+```
+docker stop -t 20 redis
+```
+
+2、`docker kill`
+
+**杀死** 正在运行的容器，默认发送`SIGKILL`信号；通过`-s` 发送指定事件
+
+```
+docker kill -s SIGTERM redis
+```
+
+示例项目：[cloud-tool](https://github.com/Nailcui/cloud-tool/blob/master/signal.go)
+
+
+
+#### 环境变量
+
+##### 1、Dockerfile中声明
+
+```
+
+```
+
+
+
+##### 2、run命令
+
+`-e` 、`--env`
+
+```
+docker run -e VAR1=value1 --env VAR2=value2 redis
+```
+
+引用本地环境变量
+
+```
+export VAR1=value1
+export VAR2=value2
+
+$ docker run --env VAR1 --env VAR2 redis
+```
+
+从文件
+
+```
+$ cat redis.env
+# This is a comment
+VAR1=value1
+VAR2=value2
+USER  # 引用本地环境变量
+
+$ docker run --env-file redis.env redis
+```
+
+#### 3、查看环境变量
+
+```
+docker inspect fe1177554bb5
+```
+
+
 
 
 

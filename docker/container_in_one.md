@@ -88,6 +88,14 @@ runC
 |           | CLONE_NEWUSER   | 用户、组                             | 3.8              |
 |           | CLONE_NEWCGROUP |                                      |                  |
 
+```
+1、PID namespace可以嵌套，就是有父子关系
+2、父 namespace可以看 以所有后代namespace的进程信息
+3、子namespace看不到父namespace 或 兄弟namespace的进程信息
+
+目前PID namespace最多可以嵌套32层，在内核中使用MAX_PID_NS_LEVEL来定义。
+```
+
 
 
 #### 2、CGroup
@@ -106,4 +114,8 @@ runC
 使用`pivot_root`系统调用来实现
 
 
+
+### 容器的生命周期
+
+![docker-lifecycle](container_in_one.assets/docker-lifecycle.png)
 

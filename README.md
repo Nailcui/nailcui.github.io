@@ -43,6 +43,7 @@
 ### [微服务](microservice/README)
 
 - [Service Mesh](microservice/service-mesh)
+- [负载均衡](microservice/load-balance)
 
 ### 分布式系统
 
@@ -84,4 +85,9 @@
 - [动态追踪技术漫谈 - OpenResty作者2016年](https://blog.openresty.com.cn/cn/dynamic-tracing/)
 
 - [eBPF简史 - 理解eBPF是什么](https://linux.cn/article-9032-1.html)
+- [浅析开源项目之io_uring - Linux异步IO](https://zhuanlan.zhihu.com/p/361955546)
+
+### Book
+
+- [剑指Offer](book/剑指offer)
 
