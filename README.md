@@ -18,6 +18,7 @@
 - [标签、注解、污点](kubernetes/labels-annotations-taints)
 - [namespace](kubernetes/namespace)
 - [service](kubernetes/service)
+- [pod](kubernetes/pod)
 - [ingress安装](kubernetes/ingress-setup)
 - manifest
     - [cloud-tool-测试工具](kubernetes/manifest/cloud-tool-in-one)
@@ -74,9 +75,10 @@
 ### database
 
 - [TSDB](database/TSDB)
-
 - Mysql
     - [Mysql相关操作](mysql/mysql_opt)
+- [一文带你看透基于LSM-tree的NoSQL系统优化方向](https://zhuanlan.zhihu.com/p/351241814)
+- [db、存储相关论文汇总 - BaronStack.github](https://github.com/BaronStack/book_paper)
 
 ### Blog
 

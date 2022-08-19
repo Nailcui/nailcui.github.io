@@ -78,15 +78,15 @@ runC
 
 #### 1、Namespace
 
-| Namespace | 系统调用        | 隔离内容                             | 内核版本（时间） |
-| --------- | --------------- | ------------------------------------ | ---------------- |
-| Mount     | CLONE_NEWNS     | 挂载点（看调用名就知道最早）         | 2.4.19           |
-|           | CLONE_NEWUTS    | nodename（主机名）domainname（域名） | 2.6.19           |
-|           | CLONE_NEWIPC    | 信号量、消息队列、共享内存           | 2.6.19           |
-|           | CLONE_NEWPID    | 进程号                               | 2.6.24           |
-|           | CLONE_NEWNET    | 网络设备、ip地址、端口等             | 2.6.29           |
-|           | CLONE_NEWUSER   | 用户、组                             | 3.8              |
-|           | CLONE_NEWCGROUP |                                      |                  |
+| 系统调用        | 隔离内容                             | 内核版本（时间） |
+| --------------- | ------------------------------------ | ---------------- |
+| CLONE_NEWNS     | 挂载点（看调用名就知道最早）         | 2.4.19 - 2006    |
+| CLONE_NEWUTS    | nodename（主机名）domainname（域名） | 2.6.19 - 2006    |
+| CLONE_NEWIPC    | 信号量、消息队列、共享内存           | 2.6.19 - 2006    |
+| CLONE_NEWPID    | 进程号                               | 2.6.24 - 2008    |
+| CLONE_NEWNET    | 网络设备、ip地址、端口等             | 2.6.29 - 2009    |
+| CLONE_NEWUSER   | 用户、组                             | 3.8 - 2013       |
+| CLONE_NEWCGROUP |                                      |                  |
 
 ```
 1、PID namespace可以嵌套，就是有父子关系
