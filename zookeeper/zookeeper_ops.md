@@ -96,3 +96,15 @@ sh /usr/local/zookeeper-3.6.3/bin/zkTxnLogToolkit.sh /tmp/zookeeper/logs/version
 ./zkSnapShotToolkit.sh -json /data/zkdata/version-2/snapshot.fa01000186d
 ```
 
+
+
+#### 事务文本太大
+
+方案一、将之前的snapshot恢复回去
+
+方案二、调整参数，允许这么大的事务
+
+```
+ -Djute.maxbuffer=8388608
+```
+

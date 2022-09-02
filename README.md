@@ -15,6 +15,9 @@
 ### [Kubernetes](kubernetes/README)
 
 - [kubectl](kubernetes/kubectl)
+- 工作负载
+    - [StatefulSet](kubernetes/workload-StatefulSet)
+- [client-go](kubernetes/client-go)
 - [标签、注解、污点](kubernetes/labels-annotations-taints)
 - [namespace](kubernetes/namespace)
 - [service](kubernetes/service)
