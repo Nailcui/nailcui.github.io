@@ -209,3 +209,12 @@ echo 'obase=2;$tmp'|bc # 再转为 十六进制
 
 ```
 
+### 压缩解压
+
+```shell
+# 压缩为 .gz 文件，默认会删除源文件
+gzip info.log
+
+# 压缩为 gz，不改动原始文件
+gzip -c info.log > info.log.gz
+```
